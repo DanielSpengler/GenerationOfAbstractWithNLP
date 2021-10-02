@@ -8,7 +8,10 @@ import errno
 
 logger = logging.getLogger(__name__)
 
-def dump_text_to_file(path, name, extension, data):
+DEFAULT_EXTENSION = "txt"
+
+
+def dump_text_to_file(data, path, name, extension=DEFAULT_EXTENSION):
     """
     Dumps given data into file with the structure: results/name
     """

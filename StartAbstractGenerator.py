@@ -10,7 +10,6 @@ logging.config.fileConfig('config/logging_config.ini', disable_existing_loggers=
 logger = logging.getLogger(__name__)
 
 RESULT_PATH = "results"
-FILE_EXTENSION = "txt"
 
 def main():
     #load text into memory
@@ -20,11 +19,11 @@ def main():
     #run model
 
     #generate abstract
+    data = "Hello World"
 
     #print abstract to file
     filename = "generated"
-    data = "Hello World"
-    PrintResult.dump_text_to_file(RESULT_PATH, filename, FILE_EXTENSION, data)
+    PrintResult.dump_text_to_file(data, RESULT_PATH, filename)
 
     return
 
