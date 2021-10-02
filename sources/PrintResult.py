@@ -21,13 +21,13 @@ def dump_text_to_file(data, path, name, extension=DEFAULT_EXTENSION):
     filename = f"{name}.{extension}"
     logger.info("Filepath: %s", filename)
     i = 0
-    while os.path.exists(f"{path}/{filename}"):
+    while os.path.exists(os.path.join(path, filename)):
         logger.info("File already exists.")
         logger.info("Adding number to it")
         i += 1
         filename = f"{name}{i}.{extension}"
 
-    filename = f"{path}/{filename}"
+    filename = os.path.join(path, filename)
 
     #dump data to file
     with open(filename, "w") as outfile:

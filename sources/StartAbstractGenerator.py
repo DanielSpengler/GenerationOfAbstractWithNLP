@@ -4,6 +4,8 @@ Handle the general workflow of the Abstract generation
 
 from logging.config import fileConfig
 import logging
+import os
+
 import PrintResult
 import ReadFile
 
@@ -16,7 +18,7 @@ RESULT_PATH = "results"
 def main():
     #load text into memory
     input_filename = "loremipsum.txt"
-    raw_data = ReadFile.load_text(f"{INPUT_PATH}/{input_filename}")
+    raw_data = ReadFile.load_text(os.path.join(INPUT_PATH, input_filename))
 
     #setup transformer
 
