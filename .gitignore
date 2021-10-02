@@ -131,3 +131,6 @@ dmypy.json
 #VSCode
 .vscode/
 workspace.code-workspace
+
+#Code Results
+results/
