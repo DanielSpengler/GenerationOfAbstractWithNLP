@@ -19,7 +19,7 @@ def start_process(input_filename=None, output_filename=None):
     #load text into memory
     if input_filename == None:
         input_filename="loremipsum.txt"
-    raw_data = ReadFile.load_text(os.path.join(INPUT_PATH, input_filename))
+    raw_data = ReadFile.load_file(os.path.join(INPUT_PATH, input_filename))
 
     #TODO set up transformer
     #setup transformer
