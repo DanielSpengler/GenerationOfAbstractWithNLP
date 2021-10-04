@@ -15,11 +15,13 @@ logger = logging.getLogger(__name__)
 INPUT_PATH = "inputs"
 RESULT_PATH = "results"
 
-def main():
+def start_process(input_filename=None, output_filename=None):
     #load text into memory
-    input_filename = "loremipsum.txt"
+    if input_filename == None:
+        input_filename="loremipsum.txt"
     raw_data = ReadFile.load_text(os.path.join(INPUT_PATH, input_filename))
 
+    #TODO set up transformer
     #setup transformer
 
     #run model
@@ -28,11 +30,14 @@ def main():
     data = raw_data
 
     #print abstract to file
-    filename = "generated"
-    PrintResult.dump_text_to_file(data, RESULT_PATH, filename)
+    if output_filename == None:
+    #TODO generate a clever name OR take from call argument
+        output_filename = "generated"
+
+    PrintResult.dump_text_to_file(data, RESULT_PATH, output_filename)
 
     return
 
 
 if __name__ == '__main__':
-    main()
+    start_process()
