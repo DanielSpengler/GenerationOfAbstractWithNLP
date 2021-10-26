@@ -30,7 +30,7 @@ def dump_text_to_file(data, path, name, extension=DEFAULT_EXTENSION):
     filename = os.path.join(path, filename)
 
     #dump data to file
-    with open(filename, "w") as outfile:
+    with open(filename, "w", encoding="utf-8") as outfile:
         logger.info("Creating file: %s", outfile.name)
         outfile.write(data)
         logger.info("Dumped data into output file %s", outfile.name)

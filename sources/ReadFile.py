@@ -7,6 +7,7 @@ import os
 from pdfminer.high_level import extract_text
 
 logger = logging.getLogger(__name__)
+logging.getLogger("pdfminer").setLevel(logging.ERROR)
 
 #TODO maybe add support for latex documents
 
@@ -14,9 +15,10 @@ def read_from_pdf(input_file):
     """
     Loads text from pdf files
     """
-    logger.info("Starting textract to read PDF")
+    logger.info("Starting textract to read PDF...")
+    logger.info(f"inputfile: {input_file}")
     text = extract_text(input_file)
-    logger.info("Text: %s", text)
+    logger.info("Done reading file")
     return text
 
 def read_from_txt(input_file):
