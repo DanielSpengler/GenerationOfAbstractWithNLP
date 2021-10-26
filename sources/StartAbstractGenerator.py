@@ -6,8 +6,10 @@ from logging.config import fileConfig
 import logging
 import os
 
-import PrintResult
-import ReadFile
+from . import PrintResult
+from . import ReadFile
+from . import TextPreprocessor
+    
 
 logging.config.fileConfig('config/logging_config.ini', disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
@@ -19,7 +21,11 @@ def start_process(input_filename=None, output_filename=None):
     #load text into memory
     if input_filename == None:
         input_filename="loremipsum.txt"
+
     raw_data = ReadFile.load_file(os.path.join(INPUT_PATH, input_filename))
+
+    #preprocess text to make it accessible for Transformer
+    data = TextPreprocessor.preprocess_text(raw_data)
 
     #TODO set up transformer
     #setup transformer
@@ -27,7 +33,7 @@ def start_process(input_filename=None, output_filename=None):
     #run model
 
     #generate abstract
-    data = raw_data
+    
 
     #print abstract to file
     if output_filename == None:

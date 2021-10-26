@@ -1,7 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import optparse
+import os, sys
+
+
 from sources import StartAbstractGenerator
+
 
 def main():
     parser = optparse.OptionParser("usage %prog "+\

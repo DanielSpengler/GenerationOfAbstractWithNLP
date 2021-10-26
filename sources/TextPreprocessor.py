@@ -9,4 +9,5 @@ logger = logging.getLogger(__name__)
 
 def preprocess_text(raw_data):
     logger.info("Starting text preprocessing...")
-    return
+    clean_text = raw_data.strip()
+    return clean_text
