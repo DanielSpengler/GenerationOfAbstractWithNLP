@@ -2,7 +2,6 @@
 from sources import ReadFile
 
 import os
-import logging
 
 TESTFILE_PATH = "tests/inputs"
 TESTFILE_NAME = "loremipsum"
