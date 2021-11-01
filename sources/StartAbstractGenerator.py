@@ -9,6 +9,7 @@ import os
 from . import PrintResult
 from . import ReadFile
 from . import TextPreprocessor
+from . import Transformer
     
 
 logging.config.fileConfig('config/logging_config.ini', disable_existing_loggers=False)
@@ -29,9 +30,10 @@ def start_process(input_filename=None, output_filename=None):
 
     #TODO set up transformer
     #setup transformer
-
+    Transformer.setup()
+    
     #run model
-
+    summary = Transformer.create_summary(preprocessed_text=data)
     #generate abstract
     
 
@@ -40,7 +42,7 @@ def start_process(input_filename=None, output_filename=None):
     #TODO generate a clever name OR take from call argument
         output_filename = "generated"
 
-    PrintResult.dump_text_to_file(data, RESULT_PATH, output_filename)
+    PrintResult.dump_text_to_file(summary, RESULT_PATH, output_filename)
 
     return
 
