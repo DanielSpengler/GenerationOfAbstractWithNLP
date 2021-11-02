@@ -3,6 +3,7 @@ Pre-Process text for usage in Transformer
 """
 
 import logging
+import re
 
 logger = logging.getLogger(__name__)
 
@@ -37,6 +38,11 @@ def remove_linebreaks(raw_data: str):
     clean_text = raw_data.replace("\n"," ")
     return clean_text
 
+def remove_double_spaces(raw_data: str):
+    logger.info("Removin double spaces within the text")
+    clean_text = re.sub('\s{2,}', ' ', raw_data)
+    return clean_text
+    
 
 def preprocess_text(raw_data: str):
     logger.info("Starting text preprocessing...")
@@ -53,6 +59,9 @@ def preprocess_text(raw_data: str):
     
     #remove newlines
     clean_text = remove_linebreaks(clean_text)
+
+    #remove double spaces
+    clean_text = remove_double_spaces(clean_text)
 
     logger.info("Done preprocessing")
     return clean_text

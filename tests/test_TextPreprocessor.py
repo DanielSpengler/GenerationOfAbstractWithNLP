@@ -38,12 +38,26 @@ def test_remove_linebreaks():
     cleaned = TextPreprocessor.remove_linebreaks(to_clean)
     assert cleaned == expected
 
+def test_remove_double_spaces():
+    """
+    Test if double spaces within the text will be removed
+    """
+    to_clean = TEST_TEXT.replace(',', ', ') 
+    cleaned = TextPreprocessor.remove_double_spaces(to_clean)
+    assert cleaned == TEST_TEXT
+    #test triple spaces
+    to_clean = TEST_TEXT.replace(',', ',   ') 
+    cleaned = TextPreprocessor.remove_double_spaces(to_clean)
+    assert cleaned == TEST_TEXT
+
 def test_complete_preprocessing():
     """
     Test whole integration of all sub-processings
     """
     expected = "INTRODUCTION" + " " + TEST_TEXT
     to_clean = expected
+    #add multiple whitespaces
+    to_clean = to_clean.replace(',', ',  ') 
     #add linebreaks after each comma
     to_clean = to_clean.replace(', ', ',\n') 
     #add leading and trailing whitespaces to 'inner' text body
