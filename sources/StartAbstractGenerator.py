@@ -28,14 +28,11 @@ def start_process(input_filename=None, output_filename=None):
     #preprocess text to make it accessible for Transformer
     data = TextPreprocessor.preprocess_text(raw_data)
 
-    #TODO set up transformer
-    #setup transformer
+    #set up transformer
     Transformer.setup()
     
-    #run model
-    summary = Transformer.create_summary(preprocessed_text=data)
     #generate abstract
-    
+    summary = Transformer.create_summary(preprocessed_text=data)
 
     #print abstract to file
     if output_filename == None:

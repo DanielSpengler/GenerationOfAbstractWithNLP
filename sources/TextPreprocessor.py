@@ -32,6 +32,12 @@ def remove_leading_trailing_whitespaces(raw_data: str):
     clean_text = clean_text.strip()
     return clean_text
 
+def remove_linebreaks(raw_data: str):
+    logger.info("Removing leading and trailing whitespaces...")
+    clean_text = raw_data.replace("\n"," ")
+    return clean_text
+
+
 def preprocess_text(raw_data: str):
     logger.info("Starting text preprocessing...")
     clean_text = raw_data
@@ -45,5 +51,8 @@ def preprocess_text(raw_data: str):
     #remove whitespaces
     clean_text = remove_leading_trailing_whitespaces(clean_text)
     
+    #remove newlines
+    clean_text = remove_linebreaks(clean_text)
+
     logger.info("Done preprocessing")
     return clean_text
