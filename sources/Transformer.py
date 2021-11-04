@@ -6,6 +6,15 @@ import logging
 logger = logging.getLogger(__name__)
 isSetup = False
 
+model = None
+tokenizer = None
+device = None
+
+class TransformerNotInitializedException(Exception):
+    def __init__(self, msg):
+        self.msg = msg
+    def __str__(self):
+        return self.msg
 
 def setup():
     """
@@ -21,6 +30,16 @@ def setup():
     isSetup= True
     logger.info("Setup complete")
 
+def teardown():
+    logger.info("Tearing down T5-Transformer")
+    global model, tokenizer, device
+    model = None
+    tokenizer = None
+    device = None
+    
+    global isSetup 
+    isSetup = False
+    print("Teardown")
 
 def encode(prepared_text):
     logger.info("Encoding prepared Text")
@@ -48,11 +67,10 @@ def create_summary(preprocessed_text):
     """
     create a summary on basis of a preprocessed text
     """
-    summary = ""
-
     if not isSetup:
         logger.error("Transformer is not setup yet.")
         logger.info("Please run Transformer.setup() before trying to create a summary")
+        raise TransformerNotInitializedException("Transformer has not been setup")
     else:
         t5_prepared_text = "summarize: " + preprocessed_text
         logger.info("Encoding input text..")

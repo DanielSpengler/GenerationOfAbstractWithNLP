@@ -1,4 +1,6 @@
 from sources import Transformer
+from sources.Transformer import TransformerNotInitializedException
+import pytest
 
 TEST_TEXT = """
 DevOps is a software development methodology that intends
@@ -40,21 +42,55 @@ of logger code: an object, an verbosity level, static texts, and dynamic
 contents.
 """.strip().replace("\n"," ")
 
-def test_setup_function():
+@pytest.fixture(autouse=True)
+def before_each_test():
+    Transformer.teardown()
+
+def test_setup():
+    """
+    Test that setup task initializes the model, tokenizer and sets the device
+    """
     #test if setup has been run
     assert Transformer.isSetup == False
-    assert not hasattr(Transformer, 'model')
-    assert not hasattr(Transformer, 'tokenizer')
-    assert not hasattr(Transformer, 'device')
+    assert Transformer.model == None
+    assert Transformer.tokenizer == None
+    assert Transformer.device == None
 
     Transformer.setup()
 
     assert Transformer.isSetup
-    assert hasattr(Transformer, 'model')
-    assert hasattr(Transformer, 'tokenizer')
-    assert hasattr(Transformer, 'device')
+    assert Transformer.model != None
+    assert Transformer.tokenizer != None
+    assert Transformer.device != None
+
+def test_teardown():
+    Transformer.setup()
+    
+    assert Transformer.isSetup == True
+
+    Transformer.teardown()
+
+    assert True
+
+    assert Transformer.isSetup == False
+    assert Transformer.model == None
+    assert Transformer.tokenizer == None
+    assert Transformer.device == None
+
+def test_summarization_without_setup():
+    """
+    Test that Transformer will not generate a result if it runs without setup
+    """
+    assert Transformer.isSetup == False
+    with pytest.raises(TransformerNotInitializedException) as e_info:
+        preprocess_text = TEST_TEXT.strip().replace("\n"," ")
+        Transformer.create_summary(preprocess_text)   
+        assert e_info.msg == "Transformer has not been setup"
 
 def test_summarization_task():
+    """
+    Test summarization functionality of Transformer class
+    """
     Transformer.setup()
     preprocess_text = TEST_TEXT.strip().replace("\n"," ")
     result = Transformer.create_summary(preprocess_text)    
