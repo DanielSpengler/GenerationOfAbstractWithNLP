@@ -16,14 +16,15 @@ class TransformerNotInitializedException(Exception):
     def __str__(self):
         return self.msg
 
-def setup():
+def setup(use_model = 't5-small'):
     """
     Setup the model, tokenizer and the device on which torch will run
     """
     logger.info("Initializing T5-Transformer")
     global model, tokenizer, device
-    model = T5ForConditionalGeneration.from_pretrained('t5-small')
-    tokenizer = T5Tokenizer.from_pretrained('t5-small')
+    logger.info(f"\twith model-size: {use_model}")
+    model = T5ForConditionalGeneration.from_pretrained(use_model)
+    tokenizer = T5Tokenizer.from_pretrained(use_model)
     device = torch.device('cpu')
 
     global isSetup 
@@ -47,14 +48,19 @@ def encode(prepared_text):
 
     return tokenized_text
 
-def summarize(tokenized_text):
+def summarize(tokenized_text, beams = 6, no_repeat_n_gram = 2, min_len = 250, max_len = 500, early_stop = True):
     logger.info("Creating Summary")
+    logger.info(f"\twith number of beams: {beams}")
+    logger.info(f"\tmin_length_of_summary: {min_len}")
+    logger.info(f"\tmax_length_of_summary: {max_len}")
+    logger.info(f"\tearly stopping allowed: {early_stop}")
+    
     summary_ids = model.generate(tokenized_text,
-                                        num_beams=4,
-                                        no_repeat_ngram_size=2,
-                                        min_length=30,
-                                        max_length=200,
-                                        early_stopping=True)
+                                        num_beams=beams,
+                                        no_repeat_ngram_size=no_repeat_n_gram,
+                                        min_length=min_len,
+                                        max_length=max_len,
+                                        early_stopping=early_stop)
     return summary_ids
 
 def decode(summary_ids):
