@@ -1,5 +1,5 @@
 from sources import Transformer
-from sources.Transformer import TransformerNotInitializedException
+from sources.T5Transformer import TransformerNotInitializedException
 import pytest
 
 TEST_TEXT = """
