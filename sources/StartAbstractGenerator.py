@@ -9,8 +9,8 @@ import os
 from . import PrintResult
 from . import ReadFile
 from . import TextPreprocessor
-from . import Transformer
-    
+from . import T5Transformer
+from . import TransformerUtils
 
 logging.config.fileConfig('config/logging_config.ini', disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
@@ -28,11 +28,14 @@ def start_process(input_filename=None, output_filename=None):
     #preprocess text to make it accessible for Transformer
     data = TextPreprocessor.preprocess_text(raw_data)
 
+    #start Transformer for t5
+    summary = TransformerUtils.start_Transformer('t5', data)
+    
     #set up transformer
-    Transformer.setup()
+    #T5Transformer.setup('t5-base')
     
     #generate abstract
-    summary = Transformer.create_summary(preprocessed_text=data)
+    #summary = T5Transformer.create_summary(preprocessed_text=data)
 
     #print abstract to file
     if output_filename == None:

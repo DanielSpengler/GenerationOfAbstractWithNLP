@@ -22,7 +22,7 @@ def setup(use_model = 't5-small'):
     """
     logger.info("Initializing T5-Transformer")
     global model, tokenizer, device
-    logger.info(f"\twith model-size: {use_model}")
+    logger.info(f"\twith model: {use_model}")
     model = T5ForConditionalGeneration.from_pretrained(use_model)
     tokenizer = T5Tokenizer.from_pretrained(use_model)
     device = torch.device('cpu')
