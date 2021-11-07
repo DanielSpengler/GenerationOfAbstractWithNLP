@@ -2,6 +2,7 @@
 import logging
 
 from . import T5Transformer
+from Exceptions import InvalidModelException
 
 logger = logging.getLogger(__name__)
 
@@ -14,12 +15,6 @@ __possible_t5_models = {
     "t5-3b",
     "t5-11b",
     }
-    
-class WrongModelException(Exception):
-    def __init__(self, msg):
-        self.msg = msg
-    def __str__(self):
-        return self.msg
 
 def set_t5_model(model: str):
     #check if given model is valid
@@ -27,7 +22,7 @@ def set_t5_model(model: str):
         global __t5_model 
         __t5_model = model
     else :
-        raise WrongModelException(f"Model ({model} is not a valid option)")
+        raise InvalidModelException(f"Model ({model} is not a valid option)")
 
 def __run_t5_transformer(data: str):
     #set up transformer

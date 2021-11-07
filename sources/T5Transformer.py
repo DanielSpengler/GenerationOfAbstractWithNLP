@@ -1,6 +1,7 @@
 
 import torch
-from transformers import T5Tokenizer, T5ForConditionalGeneration, T5Config
+from transformers import T5Tokenizer, T5ForConditionalGeneration
+from Exceptions import TransformerNotInitializedException
 import logging
 
 logger = logging.getLogger(__name__)
@@ -9,12 +10,6 @@ isSetup = False
 model = None
 tokenizer = None
 device = None
-
-class TransformerNotInitializedException(Exception):
-    def __init__(self, msg):
-        self.msg = msg
-    def __str__(self):
-        return self.msg
 
 def setup(use_model = 't5-small'):
     """

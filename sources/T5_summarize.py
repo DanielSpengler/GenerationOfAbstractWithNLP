@@ -1,7 +1,6 @@
 
 import torch
-import json 
-from transformers import T5Tokenizer, T5ForConditionalGeneration, T5Config
+from transformers import T5Tokenizer, T5ForConditionalGeneration
 
 
 import logging
@@ -46,8 +45,6 @@ system crash [7]. In particular, there are four major challenges
 associated with the software logging practices in DevOps
 """
 
-
-
 preprocess_text = text.strip().replace("\n"," ")
 
 t5_prepared_Text = "summarize: "+preprocess_text
@@ -55,7 +52,6 @@ t5_prepared_Text = "summarize: "+preprocess_text
 logger.debug("original text preprocessed: \n", preprocess_text)
 
 tokenized_text = tokenizer.encode(t5_prepared_Text, return_tensors="pt").to(device)
-
 
 # summmarize 
 summary_ids = model.generate(tokenized_text,
