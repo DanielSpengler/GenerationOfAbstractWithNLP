@@ -34,12 +34,12 @@ def remove_leading_trailing_whitespaces(raw_data: str):
     return clean_text
 
 def remove_linebreaks(raw_data: str):
-    logger.info("Removing leading and trailing whitespaces...")
+    logger.info("Removing linebreaks...")
     clean_text = raw_data.replace("\n"," ")
     return clean_text
 
 def remove_double_spaces(raw_data: str):
-    logger.info("Removin double spaces within the text")
+    logger.info("Removing double spaces within the text...")
     clean_text = re.sub('\s{2,}', ' ', raw_data)
     return clean_text
     
