@@ -1,62 +1,61 @@
-from sources import Transformer
-from sources.Exceptions import TransformerNotInitializedException
 import pytest
 
 from . import SummaryTestingUtils
+from sources import T5Transformer
+from sources.Exceptions import TransformerNotInitializedException
 
 TEST_TEXT = SummaryTestingUtils.TEST_TEXT
 TEST_SUMMARY = SummaryTestingUtils.T5_SUMMARY
 
 @pytest.fixture(autouse=True)
 def before_each_test():
-    Transformer.teardown()
+    T5Transformer.teardown()
 
 def test_setup():
     """
     Test that setup task initializes the model, tokenizer and sets the device
     """
     #test if setup has been run
-    assert Transformer.isSetup == False
-    assert Transformer.model == None
-    assert Transformer.tokenizer == None
-    assert Transformer.device == None
+    assert T5Transformer.isSetup == False
+    assert T5Transformer.__model == None
+    assert T5Transformer.__tokenizer == None
+    assert T5Transformer.__device == None
 
-    Transformer.setup()
+    T5Transformer.setup()
 
-    assert Transformer.isSetup
-    assert Transformer.model != None
-    assert Transformer.tokenizer != None
-    assert Transformer.device != None
+    assert T5Transformer.isSetup
+    assert T5Transformer.__model != None
+    assert T5Transformer.__tokenizer != None
+    assert T5Transformer.__device != None
 
 def test_teardown():
-    Transformer.setup()
+    T5Transformer.setup()
     
-    assert Transformer.isSetup == True
+    assert T5Transformer.isSetup == True
 
-    Transformer.teardown()
+    T5Transformer.teardown()
 
-    assert True
-
-    assert Transformer.isSetup == False
-    assert Transformer.model == None
-    assert Transformer.tokenizer == None
-    assert Transformer.device == None
+    assert T5Transformer.isSetup == False
+    assert T5Transformer.__model == None
+    assert T5Transformer.__tokenizer == None
+    assert T5Transformer.__device == None
 
 def test_summarization_without_setup():
     """
     Test that Transformer will not generate a result if it runs without setup
     """
-    assert Transformer.isSetup == False
+    assert T5Transformer.isSetup == False
     with pytest.raises(TransformerNotInitializedException) as e_info:
         preprocess_text = TEST_TEXT.strip().replace("\n"," ")
-        Transformer.create_summary(preprocess_text)   
+        T5Transformer.create_summary(preprocess_text)   
         assert e_info.msg == "Transformer has not been setup"
 
 def test_summarization_task():
     """
     Test summarization functionality of Transformer class
     """
-    Transformer.setup()
+    T5Transformer.setup()
     preprocess_text = TEST_TEXT.strip().replace("\n"," ")
-    result = Transformer.create_summary(preprocess_text)    
+    result = T5Transformer.create_summary(preprocess_text) 
+    result = result.strip().replace("\n"," ")   
     assert result == TEST_SUMMARY

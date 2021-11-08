@@ -2,11 +2,12 @@
 import logging
 
 from . import T5Transformer
-from Exceptions import InvalidModelException
+from .Exceptions import InvalidModelException
 
 logger = logging.getLogger(__name__)
 
 __t5_model = 't5-small'
+__lf_model = ''
 
 __possible_t5_models = {
     "t5-small",

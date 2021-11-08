@@ -9,7 +9,6 @@ import os
 from . import PrintResult
 from . import ReadFile
 from . import TextPreprocessor
-from . import T5Transformer
 from . import TransformerUtils
 
 logging.config.fileConfig('config/logging_config.ini', disable_existing_loggers=False)
