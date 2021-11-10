@@ -64,4 +64,5 @@ summary_ids = model.generate(tokenized_text,
 output = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
 
 logger.debug("\nSummarized text: \n",output)
+print("\nSummarized text: \n" + output)
 

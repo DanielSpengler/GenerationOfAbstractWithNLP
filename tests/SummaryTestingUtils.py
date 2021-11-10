@@ -39,6 +39,15 @@ of logger code: an object, an verbosity level, static texts, and dynamic
 contents.
 """.strip().replace("\n"," ")
 
+T5_SUMMARY_unknown_parameters = """
+software logging in the context of DevOps is a software development methodology
+that intends to automate the process. the goal is to reduce the time between
+committing changes and placing it to production, while ensuring high quality [1].
+compared to traditional software de- velopment process, the methodology provides
+faster feedback so that new features and bug fixes can be released faster to the
+customers.  
+""".strip().replace("\n"," ")
+
 LF_SUMMARY = """
 DevOps is a software development methodology that aims to reduce the time between committing a change to a system and placing it to production.
 The goal is to reduce time between commits and placing the production of a system to production, while ensuring high quality.
