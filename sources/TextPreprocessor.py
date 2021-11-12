@@ -44,15 +44,16 @@ def remove_double_spaces(raw_data: str):
     return clean_text
     
 
-def preprocess_text(raw_data: str):
+def preprocess_text(raw_data: str, remove_beginning=True, remove_end=True):
     logger.info("Starting text preprocessing...")
     clean_text = raw_data
 
-    #remove text before introduction
-    clean_text = remove_text_before_introduction(clean_text)
-
-    #remove text after references
-    clean_text = remove_text_after_references(clean_text)
+    if remove_beginning:
+        #remove text before introduction
+        clean_text = remove_text_before_introduction(clean_text)
+    if remove_end:
+        #remove text after references
+        clean_text = remove_text_after_references(clean_text)
 
     #remove whitespaces
     clean_text = remove_leading_trailing_whitespaces(clean_text)
