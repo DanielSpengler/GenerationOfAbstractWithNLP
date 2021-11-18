@@ -1,5 +1,7 @@
 
 import logging
+import torch
+
 
 from transformers import LongformerTokenizer, EncoderDecoderModel
 from .Exceptions import TransformerNotInitializedException
@@ -9,6 +11,7 @@ isSetup = False
 
 __model = None
 __tokenizer = None
+__device = None
 
 model_name = 'patrickvonplaten/longformer2roberta-cnn_dailymail-fp16'
 tokenizer_name = 'allenai/longformer-base-4096'
@@ -19,9 +22,11 @@ def setup():
     """
     logger.info("Initializing Longformer")
     #logger.info(f"\twith model: {use_model}")
-    global __model, __tokenizer
+    global __model, __tokenizer, __device
     __model = EncoderDecoderModel.from_pretrained(model_name)
     __tokenizer = LongformerTokenizer.from_pretrained(tokenizer_name) 
+
+    __device = torch.device('cpu')
 
     global isSetup
     isSetup = True
@@ -29,24 +34,32 @@ def setup():
 
 def teardown():
     logger.info("Tearing down Longformer")
-    global __model, __tokenizer
+    global __model, __tokenizer, __device
     __model = None
     __tokenizer = None
+    __device = None
     
     global isSetup 
     isSetup = False
     print("Teardown complete")
 
-def __encode(preprocess_text):
-    # Tokenize and summarize
-    input_ids = __tokenizer(preprocess_text, return_tensors="pt").input_ids
+def __encode(preprocessed_text):
+    logger.info("Encoding prepared Text")
+    input_ids = __tokenizer(preprocessed_text, return_tensors="pt").input_ids
     return input_ids
 
 def __summarize(input_ids):
+    logger.info("Creating Summary")
+    #this needs too much RAM (52GB)
+    #position_ids = torch.stack([torch.arange(4096) for a in range(input_ids.shape[1])]).to(__device)
+    logger.info(f"Batch-size: {input_ids.shape[1]}")
+    
     output_ids = __model.generate(input_ids)
+
     return output_ids
 
 def __decode(output_ids):
+    logger.info("Decoding summary ids")
     summary = __tokenizer.decode(output_ids[0], skip_special_tokens=True)
     return summary
 
@@ -67,7 +80,5 @@ def create_summary(preprocessed_text):
 
         logger.info("Decoding summarized IDs")
         summary = __decode(summary_ids)
-        
-        #logger.debug("Summarized text: \n",summary)
     
     return summary

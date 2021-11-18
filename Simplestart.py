@@ -5,15 +5,14 @@ import os, sys
 
 
 from sources import StartAbstractGenerator
-from sources import ReadFile
 
 def main():
     
     input_file = "devops_article.pdf"
 
-    outputfile = "summary"
+    outputfile = "devops"
 
-    StartAbstractGenerator.start_process(input_file, outputfile)
+    StartAbstractGenerator.start_process(input_filename=input_file, output_filename=outputfile, transformer_type='longformer', based_on_chapters=True)
 
 if __name__ == '__main__':
     main()

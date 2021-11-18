@@ -8,7 +8,6 @@ from .Exceptions import InvalidModelException
 logger = logging.getLogger(__name__)
 
 __t5_model = 't5-small'
-__lf_model = ''
 
 __possible_t5_models = {
     "t5-small",
@@ -46,14 +45,28 @@ def __run_longformer(data: str):
     
     return summary
 
+def __teardown_t5_transofrmer():
+    T5Transformer.teardown()
 
-switcher = {
+def __teardown_longformer():
+    Longformer.teardown()
+
+run_switcher = {
     "t5": __run_t5_transformer,
     "longformer": __run_longformer,
     }
+teardown_switcher = {
+    "t5": __teardown_t5_transofrmer,
+    "longformer": __teardown_longformer,
+    }
 
 
-def start_Transformer(type_of_transformer: str, data: str):
-    func = switcher.get(type_of_transformer, lambda x: "Invalid option")
+def start_Transformer(transformer_type: str, data: str):
+    func = run_switcher.get(transformer_type, lambda x: "Invalid option")
     logger.info("Found consumer: %s", func)
     return func(data)
+
+def stop_transformer(transformer_type: str):
+    func = teardown_switcher.get(transformer_type, lambda x: "Invalid option")
+    logger.info("Found consumer: %s", func)
+    return func()
