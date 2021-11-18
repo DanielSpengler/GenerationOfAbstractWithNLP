@@ -30,16 +30,20 @@ def start_process(input_filename=None, output_filename=None):
 
     #split text into chapters
     chapters = TextSplitter.split_text_into_chapters(data)
-
+    
+    #T5 variant
+    #transformer_type = 't5'
+    #Longformer variant
+    transformer_type = 'longformer'
     #generate summary for each chapter
     chapter_summaries = []
-    for chapter in chapters:
+    for idx, chapter in enumerate(chapters):
+        logger.info(f"Summarizing chapter {idx}/{len(chapters)}")
+        chapter_summary = ""
         prepocessed_chapter = TextPreprocessor.preprocess_text(chapter, False, False)
-        #T5 variant
-        #chapter_summary = TransformerUtils.start_Transformer('t5', prepocessed_chapter)
-        #Longformer variant
-        #chapter_summary = TransformerUtils.start_Transformer('longformer', prepocessed_chapter)
-        chapter_summary = prepocessed_chapter
+    
+        chapter_summary = TransformerUtils.start_Transformer(transformer_type, prepocessed_chapter)
+    
         chapter_summaries.append(chapter_summary)
     
     #build summary from chapter summaries
@@ -49,6 +53,8 @@ def start_process(input_filename=None, output_filename=None):
     if output_filename == None:
     #TODO generate a clever name OR take from call argument
         output_filename = "generated"
+
+    output_filename = f"{transformer_type}_{output_filename}"
 
     PrintResult.dump_text_to_file(summary, RESULT_PATH, output_filename)
 

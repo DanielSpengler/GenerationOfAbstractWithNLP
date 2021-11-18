@@ -11,7 +11,7 @@ def main():
     
     input_file = "devops_article.pdf"
 
-    outputfile = "test"
+    outputfile = "summary"
 
     StartAbstractGenerator.start_process(input_file, outputfile)
 

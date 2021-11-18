@@ -2,6 +2,7 @@
 import logging
 
 from . import T5Transformer
+from . import Longformer
 from .Exceptions import InvalidModelException
 
 logger = logging.getLogger(__name__)
@@ -27,7 +28,8 @@ def set_t5_model(model: str):
 
 def __run_t5_transformer(data: str):
     #set up transformer
-    T5Transformer.setup(__t5_model)
+    if not T5Transformer.isSetup:
+        T5Transformer.setup(__t5_model)
     
     #generate abstract
     summary = T5Transformer.create_summary(preprocessed_text=data)
@@ -35,7 +37,15 @@ def __run_t5_transformer(data: str):
     return summary
 
 def __run_longformer(data: str):
-    return "Longformer"
+    #set up transformer
+    if not Longformer.isSetup:
+        Longformer.setup()
+    
+    #generate abstract
+    summary = Longformer.create_summary(data) 
+    
+    return summary
+
 
 switcher = {
     "t5": __run_t5_transformer,
