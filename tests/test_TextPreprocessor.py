@@ -28,6 +28,26 @@ def test_remove_references():
     to_clean = expected + "REFERENCES This is a Test..."
     cleaned = TextPreprocessor.remove_text_after_references(to_clean)
     assert cleaned == expected
+    
+def test_remove_authorization_note():
+    """
+    Test if non-unicode characters are removed
+    """
+    expected = TEST_TEXT + " " + "END"
+    authorization_note = "Authorized licensed use limited to: FOM University of Applied Sciences. Downloaded on January 13,2021 at 19:41:19 UTC from IEEE Xplore.  Restrictions apply."
+    to_clean = TEST_TEXT + authorization_note + "END"
+    cleaned = TextPreprocessor.remove_authorization_note(to_clean)
+    assert cleaned == expected
+
+def test_remove_non_unicode_characters():
+    """
+    Test if non-unicode characters are removed
+    """
+    expected = TEST_TEXT
+    to_clean = "(cid:22) (cid:1) (cid:234)" + expected + "(cid:22) (cid:1) (cid:234)"
+    cleaned = TextPreprocessor.remove_non_unicode_characters(to_clean)
+    cleaned = cleaned.strip()
+    assert cleaned == expected
 
 def test_remove_linebreaks():
     """

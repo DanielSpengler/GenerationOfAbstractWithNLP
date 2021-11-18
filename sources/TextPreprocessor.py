@@ -27,6 +27,18 @@ def remove_text_after_references(raw_data: str):
         clean_text = clean_text.partition(REFERENCES)[0]
     return clean_text
 
+def remove_authorization_note(raw_data: str):
+    logger.info("Removing authorization note...")
+    clean_text = raw_data
+    clean_text = re.sub(r'Authorized licensed .* Restrictions apply\.', ' ', raw_data)
+    return clean_text
+
+def remove_non_unicode_characters(raw_data: str):
+    logger.info("Removing non-whitespaces characters...")
+    clean_text = raw_data
+    clean_text = re.sub(r'\(cid:\d*\)', ' ', raw_data)
+    return clean_text
+
 def remove_leading_trailing_whitespaces(raw_data: str):
     logger.info("Removing leading and trailing whitespaces...")
     clean_text = raw_data
@@ -54,6 +66,9 @@ def preprocess_text(raw_data: str, remove_beginning=True, remove_end=True):
     if remove_end:
         #remove text after references
         clean_text = remove_text_after_references(clean_text)
+
+    #remove special characters (cid:xx)
+    clean_text = remove_non_unicode_characters(clean_text)
 
     #remove whitespaces
     clean_text = remove_leading_trailing_whitespaces(clean_text)
