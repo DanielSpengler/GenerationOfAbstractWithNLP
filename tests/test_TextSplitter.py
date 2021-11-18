@@ -1,6 +1,9 @@
 import pytest
 
+import os
 from sources import TextSplitter
+from sources import ReadFile
+from sources import TextPreprocessor
 
 chapter_1 = """
 INTRODUCTION
@@ -35,11 +38,13 @@ runtime, can be leveraged to systematically improve the
 software logging practices in the context of DevOps
 """
 TEST_TEXT = f"""
-I. {chapter_1}
-II. {chapter_2}
-IV. {chapter_3}
+ I. {chapter_1}
+ II. {chapter_2}
+ IV. {chapter_3}
 """
-import re 
+
+TESTFILE_PATH = "tests/inputs"
+TEST_FILE = "devops_article.pdf"
 
 def test_split_text_into_chapters():
     chapters = TextSplitter.split_text_into_chapters(TEST_TEXT)
@@ -49,3 +54,17 @@ def test_split_text_into_chapters():
     assert chapters[1].strip() == chapter_2.strip()
     assert chapters[2].strip() == chapter_3.strip()
     
+def test_splitting_on_pdf_file():
+    #load text into memory
+    raw_data = ReadFile.load_file(os.path.join(TESTFILE_PATH, TEST_FILE))
+    
+    assert raw_data != None
+    assert raw_data != "Invalid option"
+
+    #preprocess text to make it accessible for Transformer
+    data = TextPreprocessor.preprocess_text(raw_data)
+
+    result = TextSplitter.split_text_into_chapters(data)
+
+    assert len(result) == 6
+
