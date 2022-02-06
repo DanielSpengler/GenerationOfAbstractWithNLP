@@ -52,7 +52,7 @@ def summarize_complete_text(transformer_type, preprocessed_text):
 
     return summary
 
-def start_process(input_filename=None, output_filename=None, transformer_type=None, based_on_chapters:bool=False):
+def start_process(input_filename=None, output_filename=None, transformer_type=None, based_on_chapters:bool=False, into_Folder:bool=False):
     #set defaults if not set
     if input_filename == None:
         raise TypeError("input_filename has to be set")
@@ -81,9 +81,16 @@ def start_process(input_filename=None, output_filename=None, transformer_type=No
 
     #print abstract to file
     chapterized = "chapterized" if based_on_chapters else "complete"
-    output_filename = f"{transformer_type}_{chapterized}_summary_{output_filename}"
+    
+    #decide if file is printed directly or to folder structure
+    if into_Folder:
+        res_path = os.path.join(RESULT_PATH, output_filename)
+        output_filename = f"{transformer_type}_{chapterized}_summary"
+    else:
+        res_path = RESULT_PATH
+        output_filename = f"{transformer_type}_{chapterized}_summary_{output_filename}"
 
-    PrintResult.dump_text_to_file(summary, RESULT_PATH, output_filename)
+    PrintResult.dump_text_to_file(summary, res_path, output_filename)
 
     return
 
