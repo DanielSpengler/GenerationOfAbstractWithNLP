@@ -19,9 +19,19 @@ def setup(use_model = 't5-small'):
     logger.info("Initializing T5-Transformer")
     global __model, __tokenizer, __device
     logger.info(f"\twith model: {use_model}")
+    
     __model = T5ForConditionalGeneration.from_pretrained(use_model)
     __tokenizer = T5Tokenizer.from_pretrained(use_model)
-    __device = torch.device('cpu')
+    
+    if torch.cuda.is_available():
+        logger.info("Found cuda-capable device. Model will use this instead of cpu.")
+        torch_device = 'cuda:0' 
+        __model = __model.cuda()
+    else:
+        logger.info("Running model on cpu.")
+        torch_device = 'cpu' 
+        
+    __device = torch.device(torch_device)
 
     global isSetup 
     isSetup= True

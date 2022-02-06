@@ -25,8 +25,16 @@ def setup():
     global __model, __tokenizer, __device
     __model = EncoderDecoderModel.from_pretrained(model_name)
     __tokenizer = LongformerTokenizer.from_pretrained(tokenizer_name) 
-
-    __device = torch.device('cpu')
+ 
+    if torch.cuda.is_available():
+        logger.info("Found cuda-capable device. Model will use this instead of cpu.")
+        torch_device = 'cuda:0' 
+        __model = __model.cuda()
+    else:
+        logger.info("Running model on cpu.")
+        torch_device = 'cpu' 
+        
+    __device = torch.device(torch_device)
 
     global isSetup
     isSetup = True
@@ -45,7 +53,7 @@ def teardown():
 
 def __encode(preprocessed_text):
     logger.info("Encoding prepared Text")
-    input_ids = __tokenizer(preprocessed_text, return_tensors="pt").input_ids
+    input_ids = __tokenizer(preprocessed_text, return_tensors="pt").to(__device).input_ids
     return input_ids
 
 def __summarize(input_ids):
