@@ -1,0 +1,5 @@
+conda install tensorflow-gpu
+conda install -c conda-forge pdfminer.six
+conda install -c pytorch pytorch
+conda install -c conda-forge keras
+conda install -c conda-forge sentencepiece
