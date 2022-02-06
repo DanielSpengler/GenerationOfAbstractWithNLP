@@ -4,7 +4,7 @@ import optparse
 import os, sys
 
 
-from sources import StartAbstractGenerator
+from sources import AbstractGenerator
 
 
 def main():
@@ -22,7 +22,7 @@ def main():
         inputfile = options.inputfile
         outputfile = options.outputfile
 
-    StartAbstractGenerator.start_process(inputfile, outputfile)
+    AbstractGenerator.start_process(inputfile, outputfile)
 
 if __name__ == '__main__':
     main()

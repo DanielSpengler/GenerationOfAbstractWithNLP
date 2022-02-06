@@ -53,16 +53,20 @@ def summarize_complete_text(transformer_type, preprocessed_text):
     return summary
 
 def start_process(input_filename=None, output_filename=None, transformer_type=None, based_on_chapters:bool=False):
-    #load text into memory
+    #set defaults if not set
     if input_filename == None:
-        input_filename="loremipsum.txt"
+        raise TypeError("input_filename has to be set")
     
     if transformer_type == None:
         #T5 variant
         transformer_type = 't5'
         #Longformer variant
         #transformer_type = 'longformer'
+        
+    if output_filename == None:
+        output_filename = "summary"
 
+    #load text into memory
     raw_data = ReadFile.load_file(os.path.join(INPUT_PATH, input_filename))
 
     #preprocess text to make it accessible for Transformer
@@ -76,9 +80,6 @@ def start_process(input_filename=None, output_filename=None, transformer_type=No
         summary = summarize_complete_text(transformer_type, data)
 
     #print abstract to file
-    if output_filename == None:
-        output_filename = "summary"
-
     chapterized = "chapterized" if based_on_chapters else "complete"
     output_filename = f"{transformer_type}_{chapterized}_summary_{output_filename}"
 

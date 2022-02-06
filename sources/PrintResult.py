@@ -16,7 +16,6 @@ def dump_text_to_file(data, path, name, extension=DEFAULT_EXTENSION):
     Dumps given data into file with the structure: results/name
     """
     logger.info("Starting dump to new directory")
-    #filename = f"results/{name}"
     #check if directory exists
     filename = f"{name}.{extension}"
     logger.info("Filepath: %s", filename)

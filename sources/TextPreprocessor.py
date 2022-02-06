@@ -70,7 +70,7 @@ def preprocess_text(raw_data: str, remove_beginning=True, remove_end=True):
     #remove special characters (cid:xx)
     clean_text = remove_non_unicode_characters(clean_text)
 
-    #remove whitespaces
+    #remove leading/trailing whitespaces
     clean_text = remove_leading_trailing_whitespaces(clean_text)
     
     #remove newlines
