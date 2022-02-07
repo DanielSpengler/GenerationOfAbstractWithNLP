@@ -3,6 +3,7 @@ import logging
 
 from . import T5Transformer
 from . import Longformer
+from . import RoBERTa
 from .Exceptions import InvalidModelException
 
 logger = logging.getLogger(__name__)
@@ -45,19 +46,34 @@ def __run_longformer(data: str):
     
     return summary
 
+def __run_roberta(data: str):
+    #set up transformer
+    if not RoBERTa.isSetup:
+        RoBERTa.setup()
+    
+    #generate abstract
+    summary = RoBERTa.create_summary(data)
+    
+    return summary
+
 def __teardown_t5_transofrmer():
     T5Transformer.teardown()
 
 def __teardown_longformer():
     Longformer.teardown()
 
+def __teardown_roberta():
+    RoBERTa.teardown()
+
 run_switcher = {
     "t5": __run_t5_transformer,
     "longformer": __run_longformer,
+    "roberta": __run_roberta,
     }
 teardown_switcher = {
     "t5": __teardown_t5_transofrmer,
     "longformer": __teardown_longformer,
+    "roberta": __teardown_roberta,
     }
 
 

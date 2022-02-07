@@ -1,5 +1,9 @@
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
-TEST_TEXT = """
+tokenizer = AutoTokenizer.from_pretrained("google/roberta2roberta_L-24_cnn_daily_mail")
+model = AutoModelForSeq2SeqLM.from_pretrained("google/roberta2roberta_L-24_cnn_daily_mail").cuda()
+
+article = """
 DevOps is a software development methodology that intends
 to automate the process between software development and IT
 operations. The goal is to reduce the time between committing
@@ -31,24 +35,6 @@ system crash [7]. In particular, there are four major challenges
 associated with the software logging practices in DevOps
 """
 
-T5_SUMMARY = """
-software logging in the context of DevOps is a software development methodology
-that intends to automate the process. the goal is to reduce the time between
-committing changes and placing it to production, while ensuring high quality [1].
-compared to traditional software de- velopment process, the methodology provides
-faster feedback so that new features and bug fixes can be released faster to the
-customers. 
-""".strip().replace("\n"," ")
-
-LF_SUMMARY = """
-DevOps is a software development methodology that aims to reduce the time between
-committing a change to a system and placing it to production. The goal is to
-reduce time between commits and placing the production of a system to production,
-while ensuring high quality. Software logging plays a central role in developing
-and maintaining logging code and analyzing the resulting execution logs.
-""".strip().replace("\n"," ")
-
-RoBERTa_SUMMARY = """
-DevNusra provides faster feedback between software development and IT operations.
-The goal is to ensure the quality and health of the deployed systems.
-""".strip().replace("\n"," ")
+input_ids = tokenizer(article, return_tensors="pt").to('cuda:0').input_ids
+output_ids = model.generate(input_ids)[0]
+print(tokenizer.decode(output_ids, skip_special_tokens=True))
