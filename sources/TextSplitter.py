@@ -14,10 +14,10 @@ def split_text_into_chapters(text):
     logger.info("Splitting text into chapters")
     regexp = REGEX_ROMAN_NUMERALS + REGEX_CHAPTER_POINT
     #result = re.split(regexp, text)
-    result = re.split(r' [MDCLXVI]+\. ', text, flags=re.IGNORECASE)
+    result = re.split(r' [XVI]+\. ', text, flags=re.IGNORECASE)
 
-    logger.info("Removing value before first chapter")
-    result = result[1:]
+    #logger.info("Removing value before first chapter")
+    #result = result[1:]
 
     logger.info(f"Found {len(result)} chapters in text")
     return result
