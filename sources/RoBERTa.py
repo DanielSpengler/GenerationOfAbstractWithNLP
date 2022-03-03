@@ -53,13 +53,14 @@ def teardown():
 
 def __encode(preprocessed_text):
     logger.info("Encoding prepared Text")
-    input_ids = __tokenizer(preprocessed_text, return_tensors="pt").to(__device).input_ids
+    input_ids = __tokenizer(preprocessed_text, padding=True, truncation=True,max_length=512, add_special_tokens = True, return_tensors="pt").to(__device).input_ids
     return input_ids
 
 def __summarize(input_ids):
     logger.info("Creating Summary")
     
-    output_ids = __model.generate(input_ids)[0]
+    output_ids = __model.generate(input_ids)
+    output_ids = output_ids[0]
 
     return output_ids
 

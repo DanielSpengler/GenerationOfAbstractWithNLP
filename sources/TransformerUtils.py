@@ -8,7 +8,7 @@ from .Exceptions import InvalidModelException
 
 logger = logging.getLogger(__name__)
 
-__t5_model = 't5-small'
+__t5_model = 't5-base'
 
 __possible_t5_models = {
     "t5-small",
